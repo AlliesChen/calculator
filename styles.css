@@ -1,0 +1,37 @@
+html {
+    box-sizing: border-box;
+}
+
+.container {
+    height: fit-content;
+    width: 100px;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+}
+
+.screen {
+    width: 100px;
+    height: 30px;
+    border: 1px solid #000;
+    text-align: right;
+    line-height: 200%; 
+}
+
+.digit,
+.operator,
+.command {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #000;
+    line-height: 200%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.digit:active,
+.operator:active {
+    background-color: darkorange;
+    cursor:grabbing;
+}
