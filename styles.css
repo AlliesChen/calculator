@@ -3,20 +3,49 @@ html {
 }
 
 .container {
+    width: 200px;
     height: fit-content;
-    width: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     border: 1px solid #000;
+    border-radius: 15px;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     flex-wrap: wrap-reverse;
+    padding-bottom: 20px;
+    background-color:  #212f3d ;
+    gap: 10px;
+}
+
+.stake, .column {
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 5px;
+}
+
+.column {
+    width: 30px;
+
+}
+
+.stake {
+    width: 130px;
 }
 
 .screen {
-    width: 100px;
-    height: 30px;
+    width: 180px;
+    height: 50px;
     border: 1px solid #000;
+    border-radius: 5px;
     text-align: right;
-    line-height: 200%; 
+    line-height: 50px;
+    font-size: 24px;
+    margin: 10px;
+    background-color:  #f8feec;
 }
 
 .digit,
@@ -25,13 +54,33 @@ html {
     width: 30px;
     height: 30px;
     border: 1px solid #000;
-    line-height: 200%;
+    border-radius: 5px;
+    line-height: 30px;
     text-align: center;
     cursor: pointer;
+    flex: auto;
+    background-color:  #34495e;
 }
 
 .digit:active,
 .operator:active {
     background-color: darkorange;
     cursor:grabbing;
+}
+
+.digit:first-child {
+    flex: 1 1 60px;
+}
+
+.stake > div:not(.command) {
+    color: #fff;
+}
+
+.column > .operator {
+    background-color:  #f1c40f;
+}
+
+.command {
+    flex: 1 1 45px;
+    background-color:  #aeb6bf;
 }
