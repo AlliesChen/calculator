@@ -2,68 +2,65 @@ const monitor = document.querySelector('.screen');
 const decimal_btn = document.querySelector('.decimal');
 const digits = document.querySelectorAll('.digit');
 const operators = document.querySelectorAll('.operator');
-const clear_btn = document.getElementById('clear');
-const allClear_btn = document.getElementById('allClear');
+const commands = document.querySelectorAll('.command');
 const operation = [];
 
-// When user use the digits plate
+// Button: digits, key in numbers
 digits.forEach((element) => {
     element.addEventListener('click', (e) => {
-        // When an error came from trying to divide a number by 0
-        if (monitor.textContent === 'E') return 10;
-        // Check if any operation is on pending or has been completed
-        if (operation[0]) {
-            operation[2] = operation[0]; // Commit the stored number to an repository
-            operation[0] = ''; // Reset the buffer
-            monitor.textContent = '0'; // Reset the display
-        } else if (operation[1] === '=') { // For a completed operation
-            monitor.textContent = '0'; // Reset the display
-            operation[1] = ''; // Reset the operator buffer
-        }
-        // Make the calculator a 12-digit limited
-        if (checkInputLength()) return 12;
-        // As the screen display 0 in default, Write over it first, and then do concatenation
-        (monitor.textContent === '0') ? monitor.textContent = e.target.textContent : monitor.textContent += e.target.textContent;
+        touchDegits(e.target.textContent);
+        return 1;
     })
 });
 
+// Button: operators, do the math
 operators.forEach((element) => {
     element.addEventListener('click', (e) => {
-        // Store the number showing on the monitor to a buffer
-        operation[0] = monitor.textContent;
-        // Check if there is a completed operation
-        if (operation[1] === '=') {
-            operation[1] = ''; // Reset the operator buffer
-        }
-        // Check if an operation is on pending
-        if (operation[2]) {
-            operation[2] = operate(operation[2], operation[1], operation[0]);
-            monitor.textContent = operation[2]; // Show the result on the display
-            operation[2] = ''; // Reset the repository
-        }
-        // Store an operator to a buffer
-        if (e.target.textContent != '=') {
-            operation[1] = e.target.textContent;
-            operation[0] = monitor.textContent; // Store the result for next operation
-        } else {
-            operation[1] = '=';
-            operation[0] = ''; // Reset the buffer
+        touchOperators(e.target.textContent);
+        return 1;
+    });
+});
+
+commands.forEach((element) => {
+    element.addEventListener('click', (e) => {
+        switch (e.target.textContent) {
+            case 'Backspace':
+                popDegit();
+                break;
+            case 'Escape':
+                clearAll();
+                break;
+            case String(e.target.textContent.match(/[cC]/)):
+                monitor.textContent = '0';
+                break;
+            default:
+                return 0;
         }
     });
 });
 
-// Button: clear the current input
-clear_btn.addEventListener('click', () => {
-    monitor.textContent = '0';
-})
-
-// Button: clear all the input
-allClear_btn.addEventListener('click', () => {
-    for (let i = 0; i < 3; i++) {
-        operation[i] = '';
+window.addEventListener('keydown', (e) => {
+    console.log(e.key);
+    switch (e.key) {
+        case String(e.key.match(/^[0-9]/)):
+            touchDegits(e.key);
+            break;
+        case String(e.key.match(/[\\+-\\*/=]/)):
+            touchOperators(e.key);
+            break;
+        case 'Backspace':
+            popDegit();
+            break;
+        case 'Escape':
+            clearAll();
+            break;
+        case String(e.target.textContent.match(/[cC]/)):
+            monitor.textContent = '0';
+            break;
+        default:
+            return 0;
     }
-    monitor.textContent = '0';
-})
+});
 
 // Button: apply floating point to the number
 decimal_btn.addEventListener('click', () => {
@@ -77,6 +74,29 @@ decimal_btn.addEventListener('click', () => {
 
 // **Functions**
 
+function clearAll() {
+    for (let i = 0; i < 3; i++) {
+        operation[i] = '';
+    }
+    monitor.textContent = '0';
+}
+
+function popDegit() {
+    let arr = monitor.textContent.split('');
+    if(monitor.textContent != '0') {
+        arr.pop();
+        // If nothing remaied or the negative symbol is the only one remained
+        while(!arr.length || (arr.length === 1 && arr[0] === '-')) {
+            arr[0] = '0';
+        }
+        monitor.textContent = arr.join('');
+        return 1;
+    } else {
+        monitor.textContent = '0';
+        return 2;
+    }
+}
+
 // Make the string value 12-digit at most
 function checkOutputLength(value) {
     let k = Number(value);
@@ -87,7 +107,8 @@ function checkOutputLength(value) {
         let i = value.slice(0, value.indexOf('.')).length;
         return k.toFixed(12 - i);
     } else if (l > 12) {
-        return k.toExponential();
+        let o = Math.min(k, Number.MAX_SAFE_INTEGER).toExponential();
+        return (o.length > 14) ? 'OVERFLOW' : o;
     } else {
         return k;
     }
@@ -164,5 +185,45 @@ function operate(initial, operator, value) {
         default:
             return '01'
     }
+}
 
+function touchOperators(key) {
+    // Store the number showing on the monitor to a buffer
+    operation[0] = monitor.textContent;
+    // Check if there is a completed operation
+    if (operation[1] === '=') {
+        operation[1] = ''; // Reset the operator buffer
+    }
+    // Check if an operation is on pending
+    if (operation[2]) {
+        operation[2] = operate(operation[2], operation[1], operation[0]);
+        monitor.textContent = operation[2]; // Show the result on the display
+        operation[2] = ''; // Reset the repository
+    }
+    // Store an operator to a buffer
+    if (key != '=') {
+        operation[1] = key;
+        operation[0] = monitor.textContent; // Store the result for next operation
+    } else {
+        operation[1] = '=';
+        operation[0] = ''; // Reset the buffer
+    }    
+}
+
+function touchDegits(key) {
+    // When an error came from trying to divide a number by 0
+    if (monitor.textContent === 'E') return 10;
+    // Check if any operation is on pending or has been completed
+    if (operation[0]) {
+        operation[2] = operation[0]; // Commit the stored number to an repository
+        operation[0] = ''; // Reset the buffer
+        monitor.textContent = '0'; // Reset the display
+    } else if (operation[1] === '=') { // For a completed operation
+        monitor.textContent = '0'; // Reset the display
+        operation[1] = ''; // Reset the operator buffer
+    }
+    // Make the calculator a 12-digit limited
+    if (checkInputLength()) return 12;
+    // As the screen display 0 in default, Write over it first, and then do concatenation
+    (monitor.textContent === '0') ? monitor.textContent = key : monitor.textContent += key;
 }

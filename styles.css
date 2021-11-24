@@ -9,14 +9,14 @@ html {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid #000;
+    border: 8px inset  #afcde2;
     border-radius: 15px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap-reverse;
     padding: 20px 0;
-    background-color:  #212f3d ;
+    background-color:  #212f3d;
     gap: 20px;
 }
 
@@ -59,19 +59,14 @@ html {
 .decimal {
     width: 60px;
     height: 60px;
-    border: 1px solid #000;
-    border-radius: 5px;
+    border: 4px outset #000;
+    border-radius: 10px;
     line-height: 60px;
     text-align: center;
     cursor: pointer;
     flex: auto;
     font-family: 'Comfortaa', cursive;
     background-color:  #34495e;
-}
-
-
-.digit:first-child {
-    flex: 1 1 150px;
 }
 
 .stake > div:not(.command) {
@@ -85,6 +80,36 @@ html {
 .command {
     flex: 1 1 90px;
     background-color:  #aeb6bf;
+    font-size: 0;
+    overflow: hidden;
+}
+
+#allClear::before,
+#clear::before {
+    color: #000;
+    font-size: 22px;
+}
+
+
+#allClear::before {
+    content: 'AC';
+    margin-left: 10px;
+}
+
+#clear::before {
+    content: 'C';
+    margin-left: 5px;
+}
+
+#back::before {
+    content: '';
+    width: 0;
+    height: 0;
+    border-width: 8px 16px;
+    border-style: solid;
+    border-color: transparent;
+    border-right-color: #000;
+    margin-right: 20px;
 }
 
 .digit:active,
