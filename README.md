@@ -1,5 +1,7 @@
 # Simple Calculator
 
+Live preview: https://allieschen.github.io/calculator/
+
 Practices from [The Odin Project](https://www.theodinproject.com/paths/foundations/courses/foundations/lessons/calculator)
 
 ## Assignments
