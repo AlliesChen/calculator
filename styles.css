@@ -9,14 +9,14 @@ html {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    border: 8px inset  #afcde2;
-    border-radius: 15px;
+    border: 8px inset  #00AFB9;
+    border-radius: 25px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap-reverse;
     padding: 20px 0;
-    background-color:  #212f3d;
+    background-color: #0081A7;
     gap: 20px;
 }
 
@@ -40,7 +40,6 @@ html {
 .screen {
     width: 360px;
     height: 100px;
-    border: 1px solid #000;
     border-radius: 5px;
     text-align: right;
     line-height: 100px;
@@ -59,27 +58,50 @@ html {
 .decimal {
     width: 60px;
     height: 60px;
-    border: 4px outset #000;
+    border: 4px outset #fff;
     border-radius: 10px;
     line-height: 60px;
     text-align: center;
     cursor: pointer;
     flex: auto;
     font-family: 'Comfortaa', cursive;
-    background-color:  #34495e;
+    background-color: #0081A7;
 }
 
-.stake > div:not(.command) {
+.stake > div:not(.command) { /* Set degits color */
     color: #fff;
 }
 
+/* The operator set */
+
 .column > .operator {
-    background-color:  #f1c40f;
+    background-color: #FED9B7;
+    font-size: 40px;
 }
+
+.column > .operator:nth-of-type(3) {
+    font-size: 0;
+}
+
+.column > .operator:nth-of-type(4) {
+    font-size: 0;
+}
+
+.column > .operator:nth-of-type(3)::before {
+    content: '×';
+    font-size: 40px;
+}
+
+.column > .operator:nth-of-type(4)::before {
+    content: '÷';
+    font-size: 40px;
+}
+
+/* The command set */
 
 .command {
     flex: 1 1 90px;
-    background-color:  #aeb6bf;
+    background-color: #FDFCDC;
     font-size: 0;
     overflow: hidden;
 }
@@ -90,15 +112,16 @@ html {
     font-size: 22px;
 }
 
-
 #allClear::before {
     content: 'AC';
     margin-left: 10px;
+    font-weight: 700;
 }
 
 #clear::before {
     content: 'C';
     margin-left: 5px;
+    font-weight: 700;
 }
 
 #back::before {
@@ -112,9 +135,16 @@ html {
     margin-right: 20px;
 }
 
-.digit:active,
+/* While click */
+
+.digit:active {
+    background-color: #00AFB9;
+    cursor:grabbing;
+}
+
 .operator:active,
 .command:active {
-    background-color:  #d35400;
+    background-color:  #F07167;
+    color: #fff;
     cursor:grabbing;
 }

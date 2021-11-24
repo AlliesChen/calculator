@@ -40,13 +40,15 @@ commands.forEach((element) => {
 });
 
 window.addEventListener('keydown', (e) => {
-    console.log(e.key);
     switch (e.key) {
-        case String(e.key.match(/^[0-9]/)):
+        case String(e.key.match(/[0-9]/)):
             touchDegits(e.key);
             break;
-        case String(e.key.match(/[\\+-\\*/=]/)):
+        case String(e.key.match(/[\\+\\-\\*\\/\\=]/)):
             touchOperators(e.key);
+            break;
+        case '.':
+            addDecimal();
             break;
         case 'Backspace':
             popDegit();
@@ -64,12 +66,8 @@ window.addEventListener('keydown', (e) => {
 
 // Button: apply floating point to the number
 decimal_btn.addEventListener('click', () => {
-    if(monitor.textContent.includes('.')) {
-        return 0;
-    } else {
-        monitor.textContent += '.'
-        return 1;
-    }
+    addDecimal();
+    return 1;
 });
 
 // **Functions**
@@ -78,7 +76,9 @@ function clearAll() {
     for (let i = 0; i < 3; i++) {
         operation[i] = '';
     }
+    setOperatorStyle();
     monitor.textContent = '0';
+    return 1;
 }
 
 function popDegit() {
@@ -131,6 +131,15 @@ function calcFloat(value1, value2, operator) {
         return operate(`${value1}`, operator, `${value2}`);
     } else {
         return operate(`${value1}`, operator, `${value2}`) / Math.pow(10, prec);
+    }
+}
+
+function addDecimal() {
+    if(monitor.textContent.includes('.')) {
+        return 0;
+    } else {
+        monitor.textContent += '.'
+        return 1;
     }
 }
 
@@ -187,6 +196,20 @@ function operate(initial, operator, value) {
     }
 }
 
+// Highlight the operator button in an ongoing operation
+function setOperatorStyle(operator) {
+    for (let value of operators.values()) {
+        if (value.getAttribute('style')) {
+            value.removeAttribute('style');
+            return 2;
+        } else if (value.textContent === operator) {
+            value.setAttribute('style', 'color: #fff; background: #F07167');
+            return 1;
+        }
+    }
+    return 0;
+}
+
 function touchOperators(key) {
     // Store the number showing on the monitor to a buffer
     operation[0] = monitor.textContent;
@@ -199,14 +222,18 @@ function touchOperators(key) {
         operation[2] = operate(operation[2], operation[1], operation[0]);
         monitor.textContent = operation[2]; // Show the result on the display
         operation[2] = ''; // Reset the repository
+        setOperatorStyle(operation[1]);
+        // operators[1].removeAttribute('style');
     }
     // Store an operator to a buffer
     if (key != '=') {
         operation[1] = key;
+        setOperatorStyle(operation[1]);
         operation[0] = monitor.textContent; // Store the result for next operation
     } else {
         operation[1] = '=';
         operation[0] = ''; // Reset the buffer
+        return 1;
     }    
 }
 
@@ -226,4 +253,5 @@ function touchDegits(key) {
     if (checkInputLength()) return 12;
     // As the screen display 0 in default, Write over it first, and then do concatenation
     (monitor.textContent === '0') ? monitor.textContent = key : monitor.textContent += key;
+    return 1;
 }
