@@ -159,11 +159,12 @@ html {
     }
 
     .screen {
-        height: 80px;
-        line-height: 80px;
+        height: 85px;
+        line-height: 85px;
     }
 
     .command {
         height: 55px;
+        line-height: 55px;
     }
 }
