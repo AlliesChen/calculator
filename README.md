@@ -32,7 +32,7 @@ Practices from [The Odin Project](https://www.theodinproject.com/paths/foundatio
 
 [How to HIDE text with CSS](https://stackoverflow.com/questions/48591950/how-to-hide-text-with-css) on Stackoverflow
 
-[The color pattern](https://coolors.co/6290c3-c2e7da-f1ffe7-1a1b41-baff29) on Coolors
+[The color pattern](https://coolors.co/0081a7-00afb9-fdfcdc-fed9b7-f07167) on Coolors
 
 ### JavaScript
 
