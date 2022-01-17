@@ -155,5 +155,15 @@ html {
     .container {
         width: 350px;
         gap: 10px;
+        padding: 10px 0;
+    }
+
+    .screen {
+        height: 80px;
+        line-height: 80px;
+    }
+
+    .command {
+        height: 55px;
     }
 }
