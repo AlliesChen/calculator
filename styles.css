@@ -67,6 +67,7 @@ html {
     flex: auto;
     font-family: 'Comfortaa', cursive;
     background-color: #0081A7;
+    box-shadow: inset 0 0 6px 2px #aaa;
 }
 
 .stake > div:not(.command) { /* Set degits color */
