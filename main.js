@@ -213,7 +213,6 @@ function touchOperators(key) {
     operation[0] = monitor.textContent;
     // Check if there is a completed operation
     if (operation[1] === '=') {
-        setOperatorStyle();
         operation[1] = ''; // Reset the operator buffer
     }
     // Check if an operation is on pending
