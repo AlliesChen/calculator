@@ -198,15 +198,13 @@ function operate(initial, operator, value) {
 
 // Highlight the operator button in an ongoing operation
 function setOperatorStyle(operator) {
-    for (let value of operators.values()) {
-        if (value.getAttribute('style')) {
-            value.removeAttribute('style');
-            return 2;
-        } else if (value.textContent === operator) {
-            value.setAttribute('style', 'color: #fff; background: #F07167');
+    operators.forEach((item) => {
+        item.removeAttribute('style');
+        if (item.textContent === operator) {
+            item.setAttribute('style', 'color: #fff; background: #F07167');
             return 1;
         }
-    }
+    });
     return 0;
 }
 
@@ -215,6 +213,7 @@ function touchOperators(key) {
     operation[0] = monitor.textContent;
     // Check if there is a completed operation
     if (operation[1] === '=') {
+        setOperatorStyle();
         operation[1] = ''; // Reset the operator buffer
     }
     // Check if an operation is on pending
@@ -223,7 +222,6 @@ function touchOperators(key) {
         monitor.textContent = operation[2]; // Show the result on the display
         operation[2] = ''; // Reset the repository
         setOperatorStyle(operation[1]);
-        // operators[1].removeAttribute('style');
     }
     // Store an operator to a buffer
     if (key != '=') {
@@ -231,6 +229,7 @@ function touchOperators(key) {
         setOperatorStyle(operation[1]);
         operation[0] = monitor.textContent; // Store the result for next operation
     } else {
+        setOperatorStyle();
         operation[1] = '=';
         operation[0] = ''; // Reset the buffer
         return 1;
